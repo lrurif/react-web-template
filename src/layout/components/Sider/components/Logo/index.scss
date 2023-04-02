@@ -1,0 +1,23 @@
+.logo-wrapper {
+    width: 100%;
+    height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    .logo {
+        animation: rotate 8s linear infinite;
+    }
+    .website-name {
+        margin-left: 10px;
+        color: #fff;
+    }
+    @keyframes rotate {
+        from {
+            transform: rotate(0);
+
+        }
+        to {
+            transform: rotate(360deg);
+        }
+    }
+}

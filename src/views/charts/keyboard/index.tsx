@@ -1,0 +1,1 @@
+export default () => <div>键盘图表</div>

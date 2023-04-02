@@ -1,0 +1,1 @@
+export default () => <div>折线图</div>

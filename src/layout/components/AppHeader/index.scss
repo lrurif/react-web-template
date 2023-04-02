@@ -1,0 +1,18 @@
+.app-header {
+    height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #fff;
+    box-shadow: 0 1px 4px rgba(0,21,41,.08);
+    box-sizing: border-box;
+    padding: 0px 20px;
+    &__left {
+        display: flex;
+        .toggle-btn {
+            font-size: 20px;
+            cursor: pointer;
+            margin-right: 20px;
+        }
+    }
+}
