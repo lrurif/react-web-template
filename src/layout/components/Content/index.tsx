@@ -3,8 +3,8 @@ const { Content } = Layout;
 import { routes, MenuItem } from "@/router/menuConfig";
 import useUserInfo from "@/store/userInfo";
 import { Route, Routes, Navigate } from "react-router-dom";
-import { Suspense, lazy } from "react";
-import "./index.scss"
+import { Suspense } from "react";
+import "./index.scss";
 // 导入基础路由 -end
 const loading = (
     <div className="pt-3 text-center">
@@ -12,20 +12,28 @@ const loading = (
     </div>
 );
 export default () => {
-    const role = useUserInfo((state) => state.role);
+    const { role, token } = useUserInfo((state) => ({
+        role: state.role,
+        token: state.token,
+    }));
     return (
         <Content className="content-wrapper">
             <Suspense fallback={loading}>
                 <Routes>
                     {routes.map((route) => {
                         return (
-                            handleFilter(route, role) && (
-                                <Route
-                                    key={route.path}
-                                    path={route.path}
-                                    element={<route.element />}
-                                ></Route>
-                            )
+                            <Route
+                                key={route.path}
+                                path={route.path}
+                                element={
+                                    <RouterGuard
+                                        role={role}
+                                        token={token}
+                                        route={route}
+                                        element={<route.element />}
+                                    ></RouterGuard>
+                                }
+                            ></Route>
                         );
                     })}
                     <Route
@@ -37,6 +45,17 @@ export default () => {
         </Content>
     );
 };
-function handleFilter(route: MenuItem, role: string) {
-    return route.roles?.includes(role) || false;
+function RouterGuard(props: {
+    role: string;
+    element: JSX.Element;
+    route: any;
+    token: string;
+}) {
+    if (!props.token) {
+        return <Navigate to="/login" replace={true} />;
+    }
+    if (!props.route.roles?.includes(props.role)) {
+        return <Navigate to="/404" replace={true} />;
+    }
+    return props.element;
 }
